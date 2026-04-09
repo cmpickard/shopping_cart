@@ -19,7 +19,7 @@ interface InteractableProductProps {
 function InteractableProduct({product, onDeleteProduct, onEditProduct, onAddToCart}: InteractableProductProps) {
   const [viewEdit, setViewEdit] = useState(false)
 
-  function handleToggleAddProduct(bool) {
+  function handleToggleAddProduct(bool: boolean) {
     setViewEdit(bool);
   }
 
