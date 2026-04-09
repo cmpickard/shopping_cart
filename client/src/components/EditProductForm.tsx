@@ -4,7 +4,7 @@ import {useState} from 'react';
 
 interface ProductProps {
   product: Product,
-  setViewEdit: React.Dispatch<React.SetStateAction<boolean>>,
+  onToggleAddProduct: (bool: boolean) => void,
   onEditProduct: (productId: string, editedProduct: {
     title: string;
     price: number;
@@ -12,7 +12,7 @@ interface ProductProps {
   }) => Promise<void>
 }
 
-function EditProductForm({product, setViewEdit, onEditProduct}: ProductProps) {
+function EditProductForm({product, onToggleAddProduct, onEditProduct}: ProductProps) {
   const [editedProduct, setEditedProduct] = useState<EditedProduct>({
     price: product.price,
     quantity: product.quantity,
@@ -87,14 +87,14 @@ function EditProductForm({product, setViewEdit, onEditProduct}: ProductProps) {
                   onClick={(e) => {
                     e.preventDefault();
                     onEditProduct(product._id, editedProduct);
-                    setViewEdit(false);
+                    onToggleAddProduct(false);
                   }}>
             Edit
           </button>
           <button type="button"
                   onClick={(e) => {
                     e.preventDefault();
-                    setViewEdit(false);
+                    onToggleAddProduct(false);
                   }}>
             Cancel
           </button>

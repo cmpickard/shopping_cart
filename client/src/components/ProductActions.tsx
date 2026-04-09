@@ -3,17 +3,12 @@ import type { Product } from "../types";
 
 interface ProductActionsProps {
   product: Product,
-  setViewEdit: React.Dispatch<React.SetStateAction<boolean>>,
   onDeleteProduct: (productId: string) => Promise<void>,
-  onAddToCart: (productId: string) => Promise<void>
+  onAddToCart: (productId: string) => Promise<void>,
+  onToggleAddProduct: (bool: boolean) => void
 }
 
- function ProductActions({product, setViewEdit, onDeleteProduct, onAddToCart}: ProductActionsProps) {
-  function handleOpenEdit(event: SyntheticEvent) {
-    event.preventDefault();
-    setViewEdit(true);
-  }
-
+ function ProductActions({product, onDeleteProduct, onAddToCart, onToggleAddProduct}: ProductActionsProps) {
   return (
     <>
       <div className="actions product-actions">
@@ -24,7 +19,13 @@ interface ProductActionsProps {
                 }}>
           Add to Cart
         </button>
-        <button className="edit" onClick={handleOpenEdit}>Edit</button>
+        <button className="edit"
+                onClick={(e: SyntheticEvent) => {
+                  e.preventDefault();
+                  onToggleAddProduct(true);
+                }}>
+          Edit
+        </button>
       </div>
       <div className="product">
         <button className="delete-button"

@@ -19,17 +19,21 @@ interface InteractableProductProps {
 function InteractableProduct({product, onDeleteProduct, onEditProduct, onAddToCart}: InteractableProductProps) {
   const [viewEdit, setViewEdit] = useState(false)
 
+  function handleToggleAddProduct(bool) {
+    setViewEdit(bool);
+  }
+
   return (
     <div className="product-details">
       <ProductItem product={product}/>
-      <ProductActions setViewEdit={setViewEdit}
+      <ProductActions onToggleAddProduct={handleToggleAddProduct}
                       product={product}
                       onDeleteProduct={onDeleteProduct}
                       onAddToCart={onAddToCart}/>
 
       {viewEdit ? <EditProductForm onEditProduct={onEditProduct}
                                product={product}
-                               setViewEdit={setViewEdit}/>
+                               onToggleAddProduct={handleToggleAddProduct}/>
                 : <></>}
     </div>
   );
