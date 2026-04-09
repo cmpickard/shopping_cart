@@ -1,4 +1,5 @@
 import type { Cart } from "../types";
+import CartProduct from "./CartProduct";
 
 interface CartListProps {
   cart: Cart,
@@ -21,11 +22,7 @@ function CartList({ cart, onCheckout }: CartListProps) {
         </thead>
         <tbody>
           {cart.map(item => {
-            return <tr key={item._id}>
-                      <td>{item.title}</td>
-                      <td>{item.quantity}</td>
-                      <td>{item.price}</td>
-                   </tr>
+            return <CartProduct item={item}/>
           })}
         </tbody>
         <tfoot>
@@ -46,19 +43,3 @@ function CartList({ cart, onCheckout }: CartListProps) {
 
 export default CartList;
 
-{/*
-<table class="cart-items">
-  <tbody>
-    <tr>
-      <td>Amazon Kindle E-reader</td>
-      <td>2</td>
-      <td>$79.99</td>
-    </tr>
-    <tr>
-      <td>Apple 10.5-Inch iPad Pro</td>
-      <td>1</td>
-      <td>$649.99</td>
-    </tr>
-  </tbody>
-
-</table> */}
