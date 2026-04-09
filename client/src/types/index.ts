@@ -11,7 +11,7 @@ export const ProductSchema = BasicProductSchema.extend({
 });
 
 export const EditedProductSchema = ProductSchema.omit({
-  '_id': true
+  _id: true
 })
 
 export const NewProductSchema = EditedProductSchema.extend({
@@ -19,7 +19,17 @@ export const NewProductSchema = EditedProductSchema.extend({
 });
 
 export const CartProductSchema = BasicProductSchema.extend({
-  quantityInCart: z.number()
+  quantity: z.number(),
+  productId: z.string()
+});
+
+export const AddToCartProductSchema = CartProductSchema.omit({
+  _id: true
+})
+
+export const ReturnedFromAddToCartSchema = z.object({
+  product: ProductSchema,
+  item: CartProductSchema
 });
 
 export const CartSchema = z.array(CartProductSchema)
@@ -32,4 +42,6 @@ export type EditedProduct = z.infer<typeof EditedProductSchema>;
 export type NewProduct = z.infer<typeof NewProductSchema>;
 export type CartProduct = z.infer<typeof CartProductSchema>;
 export type Cart = z.infer<typeof CartSchema>;
+export type AddToCartProduct = z.infer<typeof AddToCartProductSchema>;
+export type ReturnedFromAddToCart = z.infer<typeof ReturnedFromAddToCartSchema>
 

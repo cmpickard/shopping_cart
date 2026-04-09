@@ -1,34 +1,23 @@
 import type { SyntheticEvent } from "react";
 import type { Product, EditedProduct} from "../types";
-import findProductIdx from "../utilities/findProductIdx";
 import {useState} from 'react';
 
 interface ProductProps {
   product: Product,
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>,
-  products: Array<Product>,
-  setViewEdit: React.Dispatch<React.SetStateAction<boolean>>
+  setViewEdit: React.Dispatch<React.SetStateAction<boolean>>,
+  onEditProduct: (productId: string, editedProduct: {
+    title: string;
+    price: number;
+    quantity: number;
+  }) => Promise<void>
 }
 
-function EditProduct({product, setProducts, setViewEdit}: ProductProps) {
+function EditProductForm({product, setViewEdit, onEditProduct}: ProductProps) {
   const [editedProduct, setEditedProduct] = useState<EditedProduct>({
     price: product.price,
     quantity: product.quantity,
     title: product.title
   });
-
-  function handleUpdate(event: SyntheticEvent) {
-    event.preventDefault();
-    let prodAfterEdits: Product = { _id: product._id, ...editedProduct};
-
-    setProducts((prev) => {
-      let productIdx = findProductIdx(prev, product);
-      let productsCopy = [... prev];
-      productsCopy[productIdx] = prodAfterEdits;
-      return productsCopy;
-    });
-    setViewEdit(false);
-  }
 
   function handleChange(event: SyntheticEvent) {
     let target = event.target as HTMLInputElement;
@@ -94,9 +83,19 @@ function EditProduct({product, setProducts, setViewEdit}: ProductProps) {
           </label>
         </div>
         <div className="actions form-actions">
-          <button type="submit" onClick={handleUpdate}>Edit</button>
+          <button type="submit"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onEditProduct(product._id, editedProduct);
+                    setViewEdit(false);
+                  }}>
+            Edit
+          </button>
           <button type="button"
-                  onClick={(e) => { e.preventDefault(); setViewEdit(false) }}>
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setViewEdit(false);
+                  }}>
             Cancel
           </button>
         </div>
@@ -105,5 +104,5 @@ function EditProduct({product, setProducts, setViewEdit}: ProductProps) {
   );
 }
 
-export default EditProduct;
+export default EditProductForm;
 

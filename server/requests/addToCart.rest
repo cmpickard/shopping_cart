@@ -1,0 +1,10 @@
+POST http://localhost:5001/api/add-to-cart
+Content-Type: application/json
+
+{
+  "productId": "69d69a78b3f19eae33ed388a"
+}
+
+###
+
+GET http://localhost:5001/api/products

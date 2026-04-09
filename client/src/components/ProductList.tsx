@@ -1,29 +1,29 @@
-import type { Product, Cart } from "../types";
+import type { Product } from "../types";
 import InteractableProduct from "./InteractableProduct";
 
 interface ProductListProps {
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>,
   products: Array<Product>,
-  setCart: React.Dispatch<React.SetStateAction<Cart>>,
-  cart: Cart
+  onDeleteProduct: (productId: string) => Promise<void>,
+  onEditProduct: (productId: string, editedProduct: {
+    title: string;
+    price: number;
+    quantity: number;
+  }) => Promise<void>,
+  onAddToCart: (productId: string) => Promise<void>
 }
 
-function ProductList({setProducts, products, setCart, cart}: ProductListProps) {
-  // for (let prop in products[0]) {
-  //   console.log(`${prop}: `, products[0][prop]);
-  // }
+function ProductList({products, onDeleteProduct, onEditProduct, onAddToCart}: ProductListProps) {
   return (
     <div className="product-listing">
       <h2>Products</h2>
       <ul className="product-list">
         {products.map(product => {
           return <li key={product._id}>
-                    <InteractableProduct setProducts={setProducts}
-                                 products={products}
-                                 product={product}
-                                 setCart={setCart}
-                                 cart={cart}/>
-                  </li>
+                    <InteractableProduct product={product}
+                                         onEditProduct={onEditProduct}
+                                         onDeleteProduct={onDeleteProduct}
+                                         onAddToCart={onAddToCart}/>
+                 </li>
         })}
       </ul>
     </div>

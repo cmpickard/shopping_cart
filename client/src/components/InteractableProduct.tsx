@@ -1,19 +1,22 @@
-import EditProduct from "./EditProduct";
-import type { Product, Cart } from "../types";
+import EditProductForm from "./EditProductForm";
+import type { Product } from "../types";
 import { useState } from "react";
 import ProductActions from "./ProductActions";
 import ProductItem from "./ProductItem";
 
 interface InteractableProductProps {
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>,
-  products: Array<Product>,
   product: Product,
-  setCart: React.Dispatch<React.SetStateAction<Cart>>,
-  cart: Cart
+  onDeleteProduct: (productId: string) => Promise<void>,
+  onEditProduct: (productId: string, editedProduct: {
+    title: string;
+    price: number;
+    quantity: number;
+  }) => Promise<void>,
+  onAddToCart: (productId: string) => Promise<void>
 }
 
 
-function InteractableProduct({setProducts, product, products, setCart, cart}: InteractableProductProps) {
+function InteractableProduct({product, onDeleteProduct, onEditProduct, onAddToCart}: InteractableProductProps) {
   const [viewEdit, setViewEdit] = useState(false)
 
   return (
@@ -21,13 +24,10 @@ function InteractableProduct({setProducts, product, products, setCart, cart}: In
       <ProductItem product={product}/>
       <ProductActions setViewEdit={setViewEdit}
                       product={product}
-                      cart={cart}
-                      products={products}
-                      setProducts={setProducts}
-                      setCart={setCart} />
+                      onDeleteProduct={onDeleteProduct}
+                      onAddToCart={onAddToCart}/>
 
-      {viewEdit ? <EditProduct products={products} 
-                               setProducts={setProducts}
+      {viewEdit ? <EditProductForm onEditProduct={onEditProduct}
                                product={product}
                                setViewEdit={setViewEdit}/>
                 : <></>}

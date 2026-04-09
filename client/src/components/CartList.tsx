@@ -1,13 +1,14 @@
 import type { Cart } from "../types";
 
 interface CartListProps {
-  cart: Cart
+  cart: Cart,
+  onCheckout: () => Promise<void>
 }
 
-function CartList({ cart }: CartListProps) {
+function CartList({ cart, onCheckout }: CartListProps) {
   let total = 0;
   cart.forEach(item => {
-    total += item.price * item.quantityInCart;
+    total += item.price * item.quantity;
   })
 
   return (
@@ -22,7 +23,7 @@ function CartList({ cart }: CartListProps) {
           {cart.map(item => {
             return <tr key={item._id}>
                       <td>{item.title}</td>
-                      <td>{item.quantityInCart}</td>
+                      <td>{item.quantity}</td>
                       <td>{item.price}</td>
                    </tr>
           })}
@@ -34,7 +35,10 @@ function CartList({ cart }: CartListProps) {
         </tfoot>
       </table>
       <div className="checkout-button">
-          <button className="checkout">Checkout</button>
+          <button className="checkout"
+                  onClick={() => onCheckout()}>
+            Checkout
+          </button>
       </div>
     </>
   );
