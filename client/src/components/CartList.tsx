@@ -14,7 +14,7 @@ function CartList({ cart, onCheckout }: CartListProps) {
 
   return (
     <>
-      <table className="cart-itesm">
+      <table className="cart-items">
         <thead>
           <tr>
             <th scope="col">Title</th><th scope="col">Quantity</th><th scope="col">Price</th>
