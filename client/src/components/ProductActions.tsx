@@ -5,10 +5,10 @@ interface ProductActionsProps {
   product: Product,
   onDeleteProduct: (productId: string) => Promise<void>,
   onAddToCart: (productId: string) => Promise<void>,
-  onToggleAddProduct: (bool: boolean) => void
+  onToggleEditProduct: (bool: boolean) => void
 }
 
- function ProductActions({product, onDeleteProduct, onAddToCart, onToggleAddProduct}: ProductActionsProps) {
+ function ProductActions({product, onDeleteProduct, onAddToCart, onToggleEditProduct}: ProductActionsProps) {
   return (
     <>
       <div className="actions product-actions">
@@ -22,7 +22,7 @@ interface ProductActionsProps {
         <button className="edit"
                 onClick={(e: SyntheticEvent) => {
                   e.preventDefault();
-                  onToggleAddProduct(true);
+                  onToggleEditProduct(true);
                 }}>
           Edit
         </button>

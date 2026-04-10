@@ -26,7 +26,7 @@ function InteractableProduct({product, onDeleteProduct, onEditProduct, onAddToCa
   return (
     <div className="product-details">
       <ProductItem product={product}/>
-      <ProductActions onToggleAddProduct={handleToggleAddProduct}
+      <ProductActions onToggleEditProduct={handleToggleAddProduct}
                       product={product}
                       onDeleteProduct={onDeleteProduct}
                       onAddToCart={onAddToCart}/>

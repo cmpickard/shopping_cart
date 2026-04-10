@@ -22,7 +22,7 @@ function CartList({ cart, onCheckout }: CartListProps) {
         </thead>
         <tbody>
           {cart.map(item => {
-            return <CartProduct item={item}/>
+            return <tr key={item._id}><CartProduct item={item}/></tr>
           })}
         </tbody>
         <tfoot>

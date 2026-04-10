@@ -4,10 +4,10 @@ import type { NewProduct } from "../types";
 interface AddProductProps {
   showAddProduct: boolean,
   onAddProduct(newProduct: NewProduct, resetAddForm: () => void): Promise<void>,
-  setShowAddProduct: React.Dispatch<React.SetStateAction<boolean>>
+  onShowAddForm: () => void
 }
 
-function AddProduct({setShowAddProduct, showAddProduct, onAddProduct}: AddProductProps) {
+function AddProduct({onShowAddForm, showAddProduct, onAddProduct}: AddProductProps) {
   const [newProduct, setNewProduct] = useState<NewProduct>({ title: '',
                                                              quantity: 0,
                                                              price: 0 });
@@ -33,7 +33,7 @@ function AddProduct({setShowAddProduct, showAddProduct, onAddProduct}: AddProduc
   }
 
   function resetAddForm() {
-    setShowAddProduct(false);
+    onShowAddForm();
     setNewProduct({ title: '', price: 0, quantity: 0 });
   }
 
@@ -82,7 +82,10 @@ function AddProduct({setShowAddProduct, showAddProduct, onAddProduct}: AddProduc
             e.preventDefault();
             onAddProduct(newProduct, resetAddForm);
             }}>Add</button>
-          <button type="button">Cancel</button>
+          <button type="button" onClick={(e) => {
+            e.preventDefault();
+            onShowAddForm();
+          }}>Cancel</button>
         </div>
       </form>
     </div>

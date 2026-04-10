@@ -1,4 +1,4 @@
-import { useState, type SyntheticEvent } from "react";
+import { useState } from "react";
 import AddProduct from "./AddProduct";
 import type { NewProduct } from "../types";
 
@@ -9,18 +9,26 @@ interface ToggleableAddProductProps {
 function ToggleableAddProduct({onAddProduct}: ToggleableAddProductProps) {
   const [showAddProduct, setShowAddProduct] = useState(false);
 
-  function handleShowAddProduct(event: SyntheticEvent) {
-    event.preventDefault();
-
+  function handleShowAddForm() {
     setShowAddProduct((prev) => !prev);
   }
 
   return (
     <>
-      <button onClick={handleShowAddProduct}>Add Product</button>
-      <AddProduct showAddProduct={showAddProduct} setShowAddProduct={setShowAddProduct} onAddProduct={onAddProduct}/>
+      <button onClick={(e) => {
+        e.preventDefault();
+        handleShowAddForm();
+      }}>
+        Add Product
+      </button>
+      {showAddProduct ? <AddProduct
+                                    showAddProduct={showAddProduct}
+                                    onShowAddForm={handleShowAddForm}
+                                    onAddProduct={onAddProduct}/>
+                      : <></>}
     </>
   )
 }
 
 export default ToggleableAddProduct;
+
