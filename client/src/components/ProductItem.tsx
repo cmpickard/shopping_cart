@@ -9,7 +9,7 @@ function ProductItem({product}: ProductProps) {
     <>
       <h3>{product.title}</h3>
       <p className="price">${product.price}</p>
-      <p className="quantity">{product.quantity} remaining in inventory</p>
+      <p className={`quantity${product.quantity === 0 ? ' none-left' : ''}`}>{product.quantity} remaining in inventory</p>
     </>
   );
 }

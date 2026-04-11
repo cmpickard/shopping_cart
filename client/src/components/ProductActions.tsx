@@ -27,12 +27,10 @@ interface ProductActionsProps {
           Edit
         </button>
       </div>
-      <div className="product">
-        <button className="delete-button"
-                onClick={() => onDeleteProduct(product._id)}>
-          <span>X</span>
-        </button>
-      </div>
+      <button className="delete-button"
+              onClick={() => onDeleteProduct(product._id)}>
+        <span>X</span>
+      </button>
     </>
   );
 }

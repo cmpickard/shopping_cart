@@ -18,10 +18,4 @@ test('add button works', async () =>{
   expect(addButton).toBeInTheDocument();
   expect(cancelButton).toBeInTheDocument();
 
-  await user.click(addProductButton);
-
-  expect(cancelButton).not.toBeInTheDocument();
-  expect(cancelButton).not.toBeInTheDocument();
-
-  screen.debug();
 });

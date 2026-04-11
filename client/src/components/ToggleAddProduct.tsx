@@ -14,19 +14,10 @@ function ToggleableAddProduct({onAddProduct}: ToggleableAddProductProps) {
   }
 
   return (
-    <>
-      <button onClick={(e) => {
-        e.preventDefault();
-        handleShowAddForm();
-      }}>
-        Add Product
-      </button>
-      {showAddProduct ? <AddProduct
-                                    showAddProduct={showAddProduct}
-                                    onShowAddForm={handleShowAddForm}
-                                    onAddProduct={onAddProduct}/>
-                      : <></>}
-    </>
+    <AddProduct
+      showAddProduct={showAddProduct}
+      onShowAddForm={handleShowAddForm}
+      onAddProduct={onAddProduct}/>
   )
 }
 

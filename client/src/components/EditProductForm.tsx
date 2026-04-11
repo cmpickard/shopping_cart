@@ -1,10 +1,10 @@
 import type { SyntheticEvent } from "react";
 import type { Product, EditedProduct} from "../types";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 interface ProductProps {
   product: Product,
-  onToggleAddProduct: (bool: boolean) => void,
+  onToggleEditProduct: (bool: boolean) => void,
   onEditProduct: (productId: string, editedProduct: {
     title: string;
     price: number;
@@ -12,12 +12,16 @@ interface ProductProps {
   }) => Promise<void>
 }
 
-function EditProductForm({product, onToggleAddProduct, onEditProduct}: ProductProps) {
+function EditProductForm({product, onToggleEditProduct, onEditProduct}: ProductProps) {
   const [editedProduct, setEditedProduct] = useState<EditedProduct>({
     price: product.price,
     quantity: product.quantity,
     title: product.title
   });
+
+  useEffect(() => {
+    setEditedProduct({...editedProduct, quantity: product.quantity});
+  }, [product])
 
   function handleChange(event: SyntheticEvent) {
     let target = event.target as HTMLInputElement;
@@ -87,14 +91,14 @@ function EditProductForm({product, onToggleAddProduct, onEditProduct}: ProductPr
                   onClick={(e) => {
                     e.preventDefault();
                     onEditProduct(product._id, editedProduct);
-                    onToggleAddProduct(false);
+                    onToggleEditProduct(false);
                   }}>
-            Edit
+            Submit Edits
           </button>
           <button type="button"
                   onClick={(e) => {
                     e.preventDefault();
-                    onToggleAddProduct(false);
+                    onToggleEditProduct(false);
                   }}>
             Cancel
           </button>

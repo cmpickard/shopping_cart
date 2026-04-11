@@ -39,6 +39,10 @@ function AddProduct({onShowAddForm, showAddProduct, onAddProduct}: AddProductPro
 
   return (
     <div className={showAddProduct ? "add-form visible" : "add-form"}>
+      <button className="add-product-button" onClick={(e) => {
+        e.preventDefault();
+        onShowAddForm();
+      }}>Add Product</button>
       <h3>Add Product</h3>
       <form>
         <div className="input-group">
