@@ -161,6 +161,36 @@ test('updated product displays new values', async () => {
 // When the product is added to the cart, it appears in the cart.
 // When the cart is checked out, a message is displayed indicating that there are no items in the cart.
 
-test('deleting product removes from product list', async () => {});
+test('deleting product removes from product list', async () => {
+  const mockedProducts: Product[] = [{
+    _id: "1",
+    title: "Garbage",
+    quantity: 5,
+    price: 79.99,
+  }];
+  const mockedCart: Cart = [];
+  const user = userEvent.setup();
+
+  mockedFetchAllProducts.mockResolvedValue(mockedProducts);
+  mockedFetchCart.mockResolvedValue(mockedCart);
+
+  const { container } = render(<App/>);
+  // logRoles(container);
+
+  const productHeading = await screen.findByRole('heading', { name: "Garbage"});
+  expect(productHeading).toBeInTheDocument();
+
+  const deleteProduct = await screen.findByRole('button', { name: /X/i});
+  expect(deleteProduct).toBeInTheDocument();
+
+  // click delete button
+  await user.click(deleteProduct);
+
+  // const missingHeading = await screen.queryByRole('heading', { name: "Garbage"});
+  // logRoles(container);
+  // expect(missingHeading).toBeNull(); 
+  // confirm product is not in doc
+
+});
 test('adding product to car causes appearance in cart', async () => {});
 test('checkout cart resets cart to No Items', async () => {});
