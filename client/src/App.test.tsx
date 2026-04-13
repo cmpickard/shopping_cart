@@ -1,7 +1,7 @@
 import { render, screen, logRoles } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import { fetchAllProducts, fetchCart, createProduct, editProduct } from './services/services.tsx';
-import type { Cart, Product } from './types';
+import { fetchAllProducts, fetchCart, createProduct, editProduct, deleteProduct, addToCart, checkoutCart } from './services/services.tsx';
+import type { Cart, Product, ReturnedFromAddToCart } from './types';
 import App from './App.tsx';
 
 vi.mock('./services/services.tsx');
@@ -10,6 +10,9 @@ const mockedFetchAllProducts = vi.mocked(fetchAllProducts);
 const mockedFetchCart = vi.mocked(fetchCart);
 const mockedCreateProduct = vi.mocked(createProduct);
 const mockedEditProduct = vi.mocked(editProduct);
+const mockedDeleteProduct = vi.mocked(deleteProduct);
+const mockedAddToCart = vi.mocked(addToCart);
+const mockedCheckout = vi.mocked(checkoutCart);
 
 test('loads all products and cart items', async () => {
   let mockedProducts: Product[] = [
@@ -173,9 +176,9 @@ test('deleting product removes from product list', async () => {
 
   mockedFetchAllProducts.mockResolvedValue(mockedProducts);
   mockedFetchCart.mockResolvedValue(mockedCart);
+  mockedDeleteProduct.mockResolvedValue(true);
 
-  const { container } = render(<App/>);
-  // logRoles(container);
+  render(<App/>);
 
   const productHeading = await screen.findByRole('heading', { name: "Garbage"});
   expect(productHeading).toBeInTheDocument();
@@ -183,14 +186,93 @@ test('deleting product removes from product list', async () => {
   const deleteProduct = await screen.findByRole('button', { name: /X/i});
   expect(deleteProduct).toBeInTheDocument();
 
-  // click delete button
   await user.click(deleteProduct);
 
-  // const missingHeading = await screen.queryByRole('heading', { name: "Garbage"});
-  // logRoles(container);
-  // expect(missingHeading).toBeNull(); 
-  // confirm product is not in doc
-
+  const missingHeading = await screen.queryByRole('heading', { name: "Garbage"});
+  expect(missingHeading).toBeNull(); 
 });
-test('adding product to car causes appearance in cart', async () => {});
-test('checkout cart resets cart to No Items', async () => {});
+
+test('adding product to cart causes appearance in cart', async () => {
+  const mockedProducts: Product[] = [{
+    _id: "1",
+    title: "Garbage",
+    quantity: 5,
+    price: 79.99,
+  }];
+  const mockedCart: Cart = [];
+  const mockedAddition: ReturnedFromAddToCart = {
+    product: {
+      _id: "1",
+      title: "Garbage",
+      quantity: 4,
+      price: 79.99,
+    },
+    item: {
+      _id: "a1",
+      productId: "1",
+      title: "Garbage",
+      quantity: 1,
+      price: 79.99,
+    }
+  };
+
+  let user = userEvent.setup();
+
+  mockedFetchAllProducts.mockResolvedValue(mockedProducts);
+  mockedFetchCart.mockResolvedValue(mockedCart);
+  mockedAddToCart.mockResolvedValue(mockedAddition);
+
+  render(<App/>);
+
+  let addButton = await screen.findByRole('button', { name: 'Add to Cart'});
+
+  await user.click(addButton);
+
+  let cartItem = await screen.findByRole('cell', { name: 'Garbage'});
+  expect(cartItem).toBeInTheDocument();
+});
+
+test('checkout cart resets cart to No Items', async () => {
+  const mockedProducts: Product[] = [{
+    _id: "1",
+    title: "Garbage",
+    quantity: 5,
+    price: 79.99,
+  }];
+  const mockedCart: Cart = [];
+  const mockedAddition: ReturnedFromAddToCart = {
+    product: {
+      _id: "1",
+      title: "Garbage",
+      quantity: 4,
+      price: 79.99,
+    },
+    item: {
+      _id: "a1",
+      productId: "1",
+      title: "Garbage",
+      quantity: 1,
+      price: 79.99,
+    }
+  };
+
+  let user = userEvent.setup();
+
+  mockedFetchAllProducts.mockResolvedValue(mockedProducts);
+  mockedFetchCart.mockResolvedValue(mockedCart);
+  mockedAddToCart.mockResolvedValue(mockedAddition);
+  mockedCheckout.mockResolvedValue(true);
+
+  render(<App/>);
+
+  let addButton = await screen.findByRole('button', { name: 'Add to Cart'});
+
+  await user.click(addButton);
+
+  let cartItem = await screen.findByRole('cell', { name: 'Garbage'});
+  let checkoutButton = await screen.findByRole('button', { name: 'Checkout'} );
+
+  await user.click(checkoutButton);
+
+  expect(cartItem).not.toBeInTheDocument();
+});

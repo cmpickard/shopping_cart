@@ -39,8 +39,10 @@ function productReducer(prev: Product[], action: ProductAction): Product[] {
       }
       break;
     } case 'add': {
-      if (action.payload && !Array.isArray(action.payload))
-      return prev.concat(action.payload);
+      if (action.payload && !Array.isArray(action.payload)) {
+        return prev.concat(action.payload);
+      }
+      break;
     }
   }
 
@@ -70,6 +72,7 @@ function cartReducer(prev: Cart, action: CartAction) {
       if (action.payload && Array.isArray(action.payload)) {
         return action.payload;
       }
+
       break;
     }
   }
