@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import type { Cart } from "../types";
 import CartProduct from "./CartProduct";
+import { CurrencyContext } from "../providers/CurrencyProvider";
 
 interface CartListProps {
   cart: Cart,
@@ -7,6 +9,8 @@ interface CartListProps {
 }
 
 function CartList({ cart, onCheckout }: CartListProps) {
+  const {currency} = useContext(CurrencyContext)
+
   let total = 0;
   cart.forEach(item => {
     total += item.price * item.quantity;
@@ -27,7 +31,7 @@ function CartList({ cart, onCheckout }: CartListProps) {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={3} className="total">Total: ${total.toFixed(2)}</td>
+            <td colSpan={3} className="total">Total: { currency === 'USD' ? '$' : '€' }{total.toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>

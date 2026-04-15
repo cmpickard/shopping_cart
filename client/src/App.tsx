@@ -8,7 +8,7 @@ import { addToCart, checkoutCart, createProduct, deleteProduct, editProduct, fet
 import findProductIdx from './utilities/findProductIdx.ts';
 
 interface ProductAction {
-  type: 'edit' | 'delete' | 'fetch' | 'add'
+  type: 'edit' | 'delete' | 'fetch' | 'add' | 'sort'
   payload: Product | Product[] | null
 }
 
@@ -26,22 +26,32 @@ function productReducer(prev: Product[], action: ProductAction): Product[] {
         productsCopy[productIdx] = action.payload;
         return productsCopy;
       }
+
       break;
     } case 'delete': {
       if (action.payload && !Array.isArray(action.payload)) {
         const payload = action.payload;
         return prev.filter(prod => prod._id !== payload._id);
       }
+
       break;
     } case 'fetch': {
       if (action.payload && Array.isArray(action.payload)) {
         return action.payload;
       }
+
       break;
     } case 'add': {
       if (action.payload && !Array.isArray(action.payload)) {
         return prev.concat(action.payload);
       }
+
+      break;
+    } case 'sort': {
+      if (action.payload && Array.isArray(action.payload)) {
+        return action.payload;
+      }
+
       break;
     }
   }
@@ -140,17 +150,22 @@ function App() {
     if (result !== null) dispatchCart( {type: 'checkout', payload: null })
   }
 
+  function handleSort(sortedProducts: Product[]) {
+    dispatchProducts( { type: 'sort', payload: sortedProducts});
+  }
+
   return (
-    <div id="app">
+    <>
       <CartHeader cart={cart} onCheckout={handleCheckout}/>
       <main>
         <ProductList products={products}
                      onAddToCart={handleAddToCart}
                      onDeleteProduct={handleDeleteProduct}
-                     onEditProduct={handleEditProduct}/>
+                     onEditProduct={handleEditProduct}
+                     onSort={handleSort}/>
         <ToggleableAddProduct onAddProduct={handleAddProduct}/>
       </main>
-    </div>
+    </>
   )
 }
 

@@ -1,9 +1,49 @@
 @import url("./whitespace-reset.css");
 @import url("https://fonts.googleapis.com/css?family=Rammetto+One%7CRoboto+Condensed");
 
+:root {
+  --bg-color: #f0f4f8;
+  --header-bg: #07575b;
+  --header-text: #ffffff;
+  --main-bg: #c4dfe6;
+  --card-bg: #ffffff;
+  --text-color: #111111;
+  --price-color: #a83850;
+  --btn-bg: #07575b;
+  --btn-text: #ffffff;
+  --btn-disabled-bg: #cccccc;
+  --checkout-bg: #ffffff;
+  --checkout-text: #07575b;
+  --delete-btn-bg: red;
+  --border-color: #cccccc;
+}
+
+#app.dark {
+  --bg-color: #1a2535;
+  --header-bg: #1e2d3d;
+  --header-text: #ffffff;
+  --main-bg: #243447;
+  --card-bg: #2d3f54;
+  --text-color: #e8edf2;
+  --price-color: #ff6b6b;
+  --btn-bg: #3a7bd5;
+  --btn-text: #ffffff;
+  --btn-disabled-bg: #4a5568;
+  --checkout-bg: #e8edf2;
+  --checkout-text: #1a2535;
+  --delete-btn-bg: #e53e3e;
+  --border-color: #3d5166;
+}
+
 body {
   font-family: "Roboto Condensed", sans-serif;
   font-size: 16px;
+}
+
+#app {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #app {
@@ -17,11 +57,12 @@ header {
 }
 
 header {
-  background: #07575b;
-  color: #fff;
+  background: var(--header-bg);
+  color: var(--header-text);
   min-height: 200px;
   overflow: hidden;
   border-radius: 4px 4px 0 0;
+  transition: background-color 0.3s ease;
 }
 
 header h1 {
@@ -30,13 +71,40 @@ header h1 {
   float: left;
 }
 
+.header-controls {
+  float: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+  margin-top: 4px;
+}
+
+.icon-btn {
+  background: transparent;
+  color: var(--header-text);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
 header .cart {
   float: right;
   overflow: hidden;
 }
 
 main {
-  background: #c4dfe6;
+  background: var(--main-bg);
+  transition: background-color 0.3s ease;
 }
 
 h2 {
@@ -49,11 +117,12 @@ header h2 {
 }
 
 .product {
-  background: #fff;
+  background: var(--card-bg);
   padding: 14px;
   margin: 0 0 20px 0;
   border-radius: 4px;
   position: relative;
+  transition: background-color 0.3s ease;
 }
 
 h3 {
@@ -66,7 +135,7 @@ h3 {
 }
 
 .product .price {
-  color: #a83850;
+  color: var(--price-color);
 }
 
 .product .quantity.none-left {
@@ -76,7 +145,7 @@ h3 {
 .product .edit-form,
 .add-form {
   margin-top: 20px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid var(--border-color);
   padding-top: 10px;
 }
 
@@ -95,31 +164,60 @@ li {
 
 button {
   padding: 5px 12px 5px;
-  background: #07575b;
-  color: #fff;
+  background: var(--btn-bg);
+  color: var(--btn-text);
   border-color: transparent;
   border-radius: 4px;
   font-size: 14px;
   font-family: sans-serif;
   cursor: pointer;
   display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .checkout {
-  background: #fff;
-  color: #07575b;
+  background: var(--checkout-bg);
+  color: var(--checkout-text);
   margin-top: 20px;
   float: right;
 }
 
 button:disabled {
-  background: #ccc;
+  background: var(--btn-disabled-bg);
   color: #fff;
   cursor: auto;
 }
 
 .actions {
   margin-top: 20px;
+}
+
+.product-listing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.sort-btn {
+  background: transparent;
+  color: var(--btn-bg);
+  border: 1px solid var(--btn-bg);
+  padding: 3px 10px;
+  font-size: 13px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sort-btn.active {
+  background: var(--btn-bg);
+  color: var(--btn-text);
 }
 
 .product .delete-button {
@@ -129,7 +227,7 @@ button:disabled {
   border-radius: 50%;
   width: 25px;
   height: 25px;
-  background: red;
+  background: var(--delete-btn-bg);
   color: #fff;
   padding: 0;
   cursor: pointer;
@@ -166,6 +264,7 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .add-form h3,

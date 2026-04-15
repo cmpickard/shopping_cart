@@ -3,6 +3,7 @@ import type { Product } from "../types";
 import { useState } from "react";
 import ProductActions from "./ProductActions";
 import ProductItem from "./ProductItem";
+import useToggle from "../hooks/useToggle";
 
 interface InteractableProductProps {
   product: Product,
@@ -17,7 +18,7 @@ interface InteractableProductProps {
 
 
 function InteractableProduct({product, onDeleteProduct, onEditProduct, onAddToCart}: InteractableProductProps) {
-  const [viewEdit, setViewEdit] = useState(false)
+  const { visibility: viewEdit, toggle: setViewEdit } = useToggle(false);
 
   function handleToggleEditProduct(bool: boolean) {
     setViewEdit(bool);

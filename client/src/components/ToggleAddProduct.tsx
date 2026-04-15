@@ -1,16 +1,16 @@
-import { useState } from "react";
 import AddProduct from "./AddProduct";
 import type { NewProduct } from "../types";
+import useToggle from "../hooks/useToggle";
 
 interface ToggleableAddProductProps {
   onAddProduct(newProduct: NewProduct, resetAddForm: () => void): Promise<void>
 }
 
 function ToggleableAddProduct({onAddProduct}: ToggleableAddProductProps) {
-  const [showAddProduct, setShowAddProduct] = useState(false);
+  let { visibility: showAddProduct, toggle: setShowAddProduct } = useToggle(false);
 
   function handleShowAddForm() {
-    setShowAddProduct((prev) => !prev);
+    setShowAddProduct();
   }
 
   return (
